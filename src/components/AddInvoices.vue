@@ -1,7 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-form v-model="valid">
     <v-container>
-
       <v-layout>
         <v-flex
           xs12
@@ -30,7 +29,6 @@
         </v-flex>
 
         <v-flex
-          xs12
           md4
         >
           <v-text-field
@@ -111,11 +109,60 @@
             </v-menu>
           </v-flex>
 
-          <v-btn fab dark small color="indigo">
-            <v-icon>add</v-icon>
+          <v-btn fab dark small color="indigo" v-on:click="countes++">
+            <v-icon>
+              add
+            </v-icon>
           </v-btn>
       </v-layout>
 
+        <v-flex xs12>
+          <li
+            v-for="(count, i) in countes"
+            :key="count + i"
+          >
+            <v-layout>
+              <v-flex
+                xs12
+              >
+                <v-text-field
+                  v-model="invoiceFrom"
+                  :rules="nameRules"
+                  :counter="10"
+                  label="Invoice from"
+                  required
+                ></v-text-field>
+              </v-flex>
+
+              <v-flex
+                xs12
+              >
+                <v-text-field
+                  v-model="price"
+                  :rules="emailRules"
+                  label="Price"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex
+                xs12
+              >
+                <v-text-field
+                  v-model="quantity"
+                  :rules="emailRules"
+                  label="Quantity"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex
+                xs12
+              >
+                Count for your invoices  {{price*quantity}}
+              </v-flex>
+
+            </v-layout>
+          </li>
+        </v-flex>
     </v-container>
   </v-form>
 </template>
@@ -131,6 +178,9 @@ export default {
     valid: false,
     firstname: '',
     lastname: '',
+    countes: 0,
+    price: 0,
+    quantity: 0,
     nameRules: [
       v => !!v || 'Name is required',
       v => v.length <= 10 || 'Name must be less than 10 characters'
@@ -149,3 +199,8 @@ export default {
 }
 
 </script>
+<style lang="scss" scoped>
+  li {
+    list-style: none;
+  }
+</style>
