@@ -2,20 +2,24 @@
   <v-layout>
     <v-flex xs12 >
       <v-card>
-        <v-toolbar color="light-blue" dark>
-          <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar color="light-blue">
 
-          <v-toolbar-title>My files</v-toolbar-title>
+          <v-toolbar-title >Invoices</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
+          <router-link to="/">
+            <v-btn>
+            Invoices list
+            </v-btn>
+          </router-link>
 
-          <v-btn icon>
-            <v-icon>view_module</v-icon>
-          </v-btn>
+            <router-link to="/addInvoices">
+              <v-btn>
+                Add invoice
+              </v-btn>
+            </router-link>
+
         </v-toolbar>
       </v-card>
     </v-flex>
@@ -28,6 +32,18 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped >
+  .theme--light.v-toolbar {
+    color: black;
+    font-weight: lighter;
+  }
+  .v-toolbar__title{
+    font-weight: lighter;
+  }
+  .theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
+    background-color: #e5e5e5;
+  }
+  a{
+    text-decoration: none;
+  }
 </style>

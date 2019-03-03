@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Vuetify from 'vuetify'
-import HelloWorld from '../components/HelloWorld'
+import InvoicesList from '../components/InvoicesList'
 import AddInvoices from '../components/AddInvoices'
 
 Vue.use(Router)
@@ -11,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'InvoicesList',
+      component: InvoicesList
     },
     {
       path: '/addInvoices',

@@ -1,71 +1,151 @@
-<template>
-  <v-layout>
-    <v-flex xs12 >
-      <v-card>
-        <v-toolbar color="light-blue">
-          <v-toolbar-side-icon></v-toolbar-side-icon>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-form v-model="valid">
+    <v-container>
 
-          <v-toolbar-title>Invoices</v-toolbar-title>
+      <v-layout>
+        <v-flex
+          xs12
+        >
+          <v-text-field
+            v-model="invoiceName"
+            :rules="nameRules"
+            :counter="10"
+            label="Invoice name"
+            required
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
 
-          <v-spacer></v-spacer>
+      <v-layout>
+        <v-flex
+          md4
+        >
+          <v-text-field
+            v-model="invoiceFrom"
+            :rules="nameRules"
+            :counter="10"
+            label="Invoice from"
+            required
+          ></v-text-field>
+        </v-flex>
 
-          <v-btn>
-            Add Invoices
+        <v-flex
+          xs12
+          md4
+        >
+          <v-text-field
+            v-model="invoiceTo"
+            :rules="emailRules"
+            label="Invoice to"
+            required
+          ></v-text-field>
+        </v-flex>
+
+        <v-flex
+        xs12
+        md4
+        >
+          <v-btn v-on:click="addInvoices()">Add</v-btn>
+        </v-flex>
+
+      </v-layout>
+
+        <v-layout row wrap>
+          <v-flex xs12 sm6 md4>
+            <v-menu
+              ref="paid_date_menu"
+              v-model="paid_date_menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="paidDate"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="paidDate"
+                  label="Paid date"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="paidDate" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn flat color="primary" @click="paid_date_menu = false">Cancel</v-btn>
+                <v-btn flat color="primary" @click="$refs.paid_date_menu.save(paidDate)">OK</v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-flex>
+
+          <v-flex xs12 sm6 md4>
+            <v-menu
+              ref="sell_date_menu"
+              v-model="sell_date_menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="sellDate"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="sellDate"
+                  label="Sell date"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="sellDate" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn flat color="primary" @click="sell_date_menu = false">Cancel</v-btn>
+                <v-btn flat color="primary" @click="$refs.sell_date_menu.save(sellDate)">OK</v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-flex>
+
+          <v-btn fab dark small color="indigo">
+            <v-icon>add</v-icon>
           </v-btn>
+      </v-layout>
 
-          <v-btn>
-            Invoices list
-          </v-btn>
-        </v-toolbar>
-
-        <v-list two-line subheader>
-
-          <v-list-tile
-            v-for="item in items"
-            :key="item.title"
-            avatar
-          >
-            <v-list-tile-avatar>
-              <v-icon>assignment</v-icon>
-            </v-list-tile-avatar>
-
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
-            </v-list-tile-content>
-
-            <v-list-tile-action>
-              <v-btn icon ripple>
-                <v-icon color="grey lighten-1">delete</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-
-        </v-list>
-      </v-card>
-    </v-flex>
-  </v-layout>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
+import { invoiceElement } from '../components/InvoicesList'
 export default {
-  name: 'AddInvoices',
-  data () {
-    return {
-      items: [
-        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Photos', subtitle: 'Jan 9, 2014' },
-        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Recipes', subtitle: 'Jan 17, 2014' },
-        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Work', subtitle: 'Jan 28, 2014' }
-      ],
-      items2: [
-        { icon: 'assignment', iconClass: 'blue white--text', title: 'Vacation itinerary', subtitle: 'Jan 20, 2014' },
-        { icon: 'call_to_action', iconClass: 'amber white--text', title: 'Kitchen remodel', subtitle: 'Jan 10, 2014' }
-      ]
+  data: () => ({
+    paidDate: new Date().toISOString().substr(0, 10),
+    sellDate: new Date().toISOString().substr(0, 10),
+    paid_date_menu: false,
+    sell_date_menu: false,
+    valid: false,
+    firstname: '',
+    lastname: '',
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => v.length <= 10 || 'Name must be less than 10 characters'
+    ],
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+/.test(v) || 'E-mail must be valid'
+    ]
+  }),
+  computed: {
+    addInvoices: (event) => {
+      invoiceElement.addInvoice(event)
     }
   }
 }
+
 </script>
-
-<style scoped>
-
-</style>
