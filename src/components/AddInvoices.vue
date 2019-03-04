@@ -7,7 +7,6 @@
         >
           <v-text-field
             v-model="invoiceName"
-            :rules="nameRules"
             :counter="10"
             label="Invoice name"
             required
@@ -21,7 +20,6 @@
         >
           <v-text-field
             v-model="invoiceFrom"
-            :rules="nameRules"
             :counter="10"
             label="Invoice from"
             required
@@ -33,7 +31,6 @@
         >
           <v-text-field
             v-model="invoiceTo"
-            :rules="emailRules"
             label="Invoice to"
             required
           ></v-text-field>
@@ -43,7 +40,7 @@
         xs12
         md4
         >
-          <v-btn v-on:click="addInvoices()">Add</v-btn>
+          <v-btn v-on:click="invoiceElement.addInvoice({invoiceName, invoiceTitle})">Add</v-btn>
         </v-flex>
 
       </v-layout>
@@ -127,7 +124,6 @@
               >
                 <v-text-field
                   v-model="invoiceFrom"
-                  :rules="nameRules"
                   :counter="10"
                   label="Invoice from"
                   required
@@ -139,7 +135,6 @@
               >
                 <v-text-field
                   v-model="price"
-                  :rules="emailRules"
                   label="Price"
                   required
                 ></v-text-field>
@@ -149,7 +144,6 @@
               >
                 <v-text-field
                   v-model="quantity"
-                  :rules="emailRules"
                   label="Quantity"
                   required
                 ></v-text-field>
@@ -162,40 +156,35 @@
 
             </v-layout>
           </li>
+
         </v-flex>
     </v-container>
   </v-form>
 </template>
 
 <script>
-import { invoiceElement } from '../components/InvoicesList'
+import { invoiceElement } from '../App'
 export default {
   data: () => ({
+    invoiceName: invoiceElement.invoiceName,
+    invoiceTitle: invoiceElement.invoiceTitle,
+    invoiceFrom: invoiceElement.invoiceFrom,
+    invoiceTo: invoiceElement.invoiceTo,
     paidDate: new Date().toISOString().substr(0, 10),
     sellDate: new Date().toISOString().substr(0, 10),
     paid_date_menu: false,
     sell_date_menu: false,
     valid: false,
-    firstname: '',
-    lastname: '',
+    paid: false,
     countes: 0,
     price: 0,
     quantity: 0,
+    invoiceElement,
     nameRules: [
-      v => !!v || 'Name is required',
-      v => v.length <= 10 || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+/.test(v) || 'E-mail must be valid'
+      v => v.length <= 25 || 'Max 25 characters'
     ]
-  }),
-  computed: {
-    addInvoices: (event) => {
-      invoiceElement.addInvoice(event)
-    }
-  }
+  })
+
 }
 
 </script>

@@ -16,14 +16,15 @@
 
             <v-list-tile-content>
               <v-list-tile-title>{{ invoice.invoiceName }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ invoice.invoiceTitle }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ invoice.invoiceId }}</v-list-tile-sub-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
               <v-btn icon ripple>
-                <v-icon color="grey lighten-1" v-on:click="removeInvoices(invoice.invoiceName)">delete</v-icon>
+                <v-icon color="grey lighten-1" v-on:click="invoiceElement.removeInvoice(invoice.invoiceId)">delete</v-icon>
               </v-btn>
             </v-list-tile-action>
+
           </v-list-tile>
 
         </v-list>
@@ -33,19 +34,14 @@
 </template>
 
 <script>
-import Invoice from '../../application/Invoice.ts'
-export let invoiceElement = new Invoice()
+import { invoiceElement } from '../App'
 export default {
   name: 'InvoicesList',
   data () {
     let invoices = invoiceElement.getAllInvoice()
     return {
+      invoiceElement: invoiceElement,
       invoices
-    }
-  },
-  computed: {
-    removeInvoices: (event) => {
-      invoiceElement.removeInvoice(event)
     }
   }
 }
