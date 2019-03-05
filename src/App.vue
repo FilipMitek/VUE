@@ -7,7 +7,7 @@
 
 <script>
 import Header from './components/Header'
-import { Invoice } from '../application/Invoice'
+import { Invoice } from '../application/controller/InvoiceController/Invoice'
 export const invoiceElement = new Invoice()
 export default {
   name: 'App',

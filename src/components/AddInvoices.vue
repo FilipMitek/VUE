@@ -16,7 +16,7 @@
 
       <v-layout>
         <v-flex
-          md4
+          xs12 md4
         >
           <v-text-field
             v-model="invoiceFrom"
@@ -27,7 +27,7 @@
         </v-flex>
 
         <v-flex
-          md4
+          xs12 md4
         >
           <v-text-field
             v-model="invoiceTo"
@@ -37,16 +37,15 @@
         </v-flex>
 
         <v-flex
-        xs12
-        md4
+        xs2 md1
         >
-          <v-btn v-on:click="invoiceElement.addInvoice({invoiceName, invoiceTitle})">Add</v-btn>
+          <v-btn v-on:click="invoiceElement.addInvoice({invoiceName, invoiceTitle, paid, paidDate, sellDate, invoiceTo, invoiceFrom})">Add</v-btn>
         </v-flex>
 
       </v-layout>
 
         <v-layout row wrap>
-          <v-flex xs12 sm6 md4>
+          <v-flex xs6 md4>
             <v-menu
               ref="paid_date_menu"
               v-model="paid_date_menu"
@@ -76,7 +75,7 @@
             </v-menu>
           </v-flex>
 
-          <v-flex xs12 sm6 md4>
+          <v-flex xs6 md4>
             <v-menu
               ref="sell_date_menu"
               v-model="sell_date_menu"
@@ -120,38 +119,38 @@
           >
             <v-layout>
               <v-flex
-                xs12
+                xs3
               >
                 <v-text-field
-                  v-model="invoiceFrom"
+                  v-model="productName[count]"
                   :counter="10"
-                  label="Invoice from"
+                  label="Product"
                   required
                 ></v-text-field>
               </v-flex>
 
               <v-flex
-                xs12
+                xs3
               >
                 <v-text-field
-                  v-model="price"
+                  v-model="price[count]"
                   label="Price"
                   required
                 ></v-text-field>
               </v-flex>
               <v-flex
-                xs12
+                xs3
               >
                 <v-text-field
-                  v-model="quantity"
+                  v-model="quantity[count]"
                   label="Quantity"
                   required
                 ></v-text-field>
               </v-flex>
               <v-flex
-                xs12
+                xs3
               >
-                Count for your invoices  {{price*quantity}}
+                Count for your invoices  {{price[count]*quantity[count]}}
               </v-flex>
 
             </v-layout>
@@ -177,19 +176,25 @@ export default {
     valid: false,
     paid: false,
     countes: 0,
-    price: 0,
-    quantity: 0,
+    price: [0],
+    quantity: [0],
+    productName: [''],
     invoiceElement,
     nameRules: [
       v => v.length <= 25 || 'Max 25 characters'
     ]
   })
-
 }
-
 </script>
-<style lang="scss" scoped>
+
+<style lang="scss">
+
   li {
     list-style: none;
   }
+
+  .v-input__control {
+    margin: 10px;
+  }
+
 </style>
