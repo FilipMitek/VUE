@@ -24,6 +24,7 @@
             label="Invoice from"
             required
           ></v-text-field>
+
         </v-flex>
 
         <v-flex
@@ -34,12 +35,6 @@
             label="Invoice to"
             required
           ></v-text-field>
-        </v-flex>
-
-        <v-flex
-        xs2 md1
-        >
-          <v-btn v-on:click="invoiceElement.addInvoice({invoiceName, invoiceTitle, paid, paidDate, sellDate, invoiceTo, invoiceFrom})">Add</v-btn>
         </v-flex>
 
       </v-layout>
@@ -96,6 +91,7 @@
                   readonly
                   v-on="on"
                 ></v-text-field>
+
               </template>
               <v-date-picker v-model="sellDate" no-title scrollable>
                 <v-spacer></v-spacer>
@@ -110,6 +106,7 @@
               add
             </v-icon>
           </v-btn>
+
       </v-layout>
 
         <v-flex xs12>
@@ -138,6 +135,7 @@
                   required
                 ></v-text-field>
               </v-flex>
+
               <v-flex
                 xs3
               >
@@ -146,11 +144,22 @@
                   label="Quantity"
                   required
                 ></v-text-field>
+
               </v-flex>
-              <v-flex
-                xs3
+              <v-flex v-if="price[count]>0 && quantity[count]>0"
+                xs2
               >
-                Count for your invoices  {{price[count]*quantity[count]}}
+                <p>
+                  Total Price: {{price[count]*quantity[count]}}
+                </p>
+              </v-flex>
+
+              <v-flex
+                xs2 md1
+              >
+                <v-btn v-on:click="invoiceElement.addInvoice({invoiceName, invoiceTitle, paid, paidDate, sellDate, invoiceTo, invoiceFrom})" class="material-icons">
+                  add
+                </v-btn>
               </v-flex>
 
             </v-layout>
@@ -164,26 +173,28 @@
 <script>
 import { invoiceElement } from '../App'
 export default {
-  data: () => ({
-    invoiceName: invoiceElement.invoiceName,
-    invoiceTitle: invoiceElement.invoiceTitle,
-    invoiceFrom: invoiceElement.invoiceFrom,
-    invoiceTo: invoiceElement.invoiceTo,
-    paidDate: new Date().toISOString().substr(0, 10),
-    sellDate: new Date().toISOString().substr(0, 10),
-    paid_date_menu: false,
-    sell_date_menu: false,
-    valid: false,
-    paid: false,
-    countes: 0,
-    price: [0],
-    quantity: [0],
-    productName: [''],
-    invoiceElement,
-    nameRules: [
-      v => v.length <= 25 || 'Max 25 characters'
-    ]
-  })
+  data: function () {
+    return {
+      invoiceName: invoiceElement.invoiceName,
+      invoiceTitle: invoiceElement.invoiceTitle,
+      invoiceFrom: invoiceElement.invoiceFrom,
+      invoiceTo: invoiceElement.invoiceTo,
+      paidDate: new Date().toISOString().substr(0, 10),
+      sellDate: new Date().toISOString().substr(0, 10),
+      paid_date_menu: false,
+      sell_date_menu: false,
+      valid: false,
+      paid: false,
+      countes: 0,
+      price: [0],
+      quantity: [0],
+      productName: [''],
+      invoiceElement,
+      nameRules: [
+        v => v.length <= 25 || 'Max 25 characters'
+      ]
+    }
+  }
 }
 </script>
 
@@ -191,6 +202,9 @@ export default {
 
   li {
     list-style: none;
+  }
+  p {
+    padding-top: 20%;
   }
 
   .v-input__control {
