@@ -1,22 +1,21 @@
 <template>
   <div id="app">
-    <router-view/>
+    <Header></Header>
+   <router-view/>
   </div>
 </template>
 
 <script>
+import Header from './components/Header'
+import { Invoice } from '../application/controller/InvoiceController/Invoice'
+export const invoiceElement = new Invoice()
 export default {
-  name: 'App'
+  name: 'App',
+  components: { Header }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style
+  src="../static/styles/global.scss"
+  lang="scss">
 </style>
